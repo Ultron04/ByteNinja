@@ -19,6 +19,7 @@ public class Connections {
     	catch(Exception e){e.printStackTrace();}
     	return connection;
     }
+    //Function to check the connection
     public static void main(String[] args) {
     	Connections in = new Connections();
     	if (in.getConnection()!=null) {
