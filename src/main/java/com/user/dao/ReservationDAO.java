@@ -1,64 +1,36 @@
-package com.user.dao;
+package com.user.Controller;
 
-import com.user.model.Reservation;
-import com.user.util.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.user.model.User;
+import com.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-public class ReservationDAO {
-    private Connection connection;
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
 
-    public ReservationDAO() {
-        this.connection = DBConnection.getConnection();
+    @PostMapping("/add")
+    public User addUser (@RequestBody User user) {
+        return userService.saveUser (user);
     }
 
-    public void saveReservation(Reservation reservation) throws SQLException {
-        String sql = "INSERT INTO reservations (user_id, seat_number, reservation_date) VALUES (?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, reservation.getUserId());
-            statement.setInt(2, reservation.getSeatNumber());
-            statement.setDate(3, reservation.getReservationDate());
-            statement.executeUpdate();
-        }
+    @DeleteMapping("/remove/{id}")
+    public void removeUser (@PathVariable int id) {
+        userService.deleteUser (id);
     }
 
-    public List<Reservation> getAllReservations() throws SQLException {
-        List<Reservation> reservations = new ArrayList<>();
-        String sql = "SELECT * FROM reservations";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                reservations.add(new Reservation(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    resultSet.getInt("seat_number"),
-                    resultSet.getDate("reservation_date")
-                ));
-            }
-        }
-        return reservations;
+    @GetMapping("/all")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    public List<Reservation> getReservationsByUserId(int userId) throws SQLException {
-        List<Reservation> reservations = new ArrayList<>();
-        String sql = "SELECT * FROM reservations WHERE user_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                reservations.add(new Reservation(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    resultSet.getInt("seat_number"),
-                    resultSet.getDate("reservation_date")
-                ));
-            }
-        }
-        return reservations;
+    @GetMapping("/{username}")
+    public User getUser ByUsername(@PathVariable String username) {
+        return userService.findByUsername(username);
     }
 }
