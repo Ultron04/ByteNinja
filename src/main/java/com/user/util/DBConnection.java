@@ -16,9 +16,11 @@ public class DBConnection {
                 Properties properties = new Properties();
                 FileInputStream fis = new FileInputStream("src/main/resources/config/db_config.properties");
                 properties.load(fis);
-                String jdbcURL = properties.getProperty("jdbc:mysql://localhost:3306/seat_reservation");
-                String jdbcUsername = properties.getProperty("root");
-                String jdbcPassword = properties.getProperty("Anand@2004#");
+                
+                // Use the correct keys to retrieve properties
+                String jdbcURL = properties.getProperty("jdbc.url");
+                String jdbcUsername = properties.getProperty("jdbc.username");
+                String jdbcPassword = properties.getProperty("jdbc.password");
 
                 connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
             } catch (SQLException | IOException e) {
