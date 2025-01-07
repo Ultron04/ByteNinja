@@ -1,3 +1,5 @@
+PROJECT PREVEIW 
+https://github.com/user-attachments/assets/02351e44-c976-4cb1-a326-992e09fdf906
 
 PROBLEM STATEMENT
 •	Many libraries still manage seat reservations manually, leading to inefficiencies and inconvenience for both staff and patrons.The absence of a streamlined digital system result in several issues:
