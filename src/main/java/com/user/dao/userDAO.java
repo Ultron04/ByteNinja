@@ -9,7 +9,7 @@ public class userDAO {
 
 	private String jdbcURL = "jdbc:mysql://localhost:3306/seat_reservation";
 	private String jdbcUserName = "root";
-	private String jdbcpassword = "Anand@2004#";
+	private String jdbcpassword = "root"; //Use your password , if havent set then use "root";
 
 	private static final String INSERT_USER_SQL = "INSERT INTO users " + "(S_username,password,name) VALUES "+ "(?,?,?);";
 	private static final String DELETE_USER_SQL = "DELETE FROM users where S_username=?;";
